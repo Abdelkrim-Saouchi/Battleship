@@ -4,8 +4,8 @@ export default function shipFactory(length, name) {
     if (length == null || typeof length !== 'number')
       throw new Error('invalid inputs');
     hits += 1;
-    return hits;
   };
+  const getHits = () => hits;
   const isSunk = () => {
     if (length == null || typeof length !== 'number')
       throw new Error('invalid inputs');
@@ -15,6 +15,7 @@ export default function shipFactory(length, name) {
   return {
     name,
     hit,
+    getHits,
     isSunk,
   };
 }

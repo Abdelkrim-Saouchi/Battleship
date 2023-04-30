@@ -9,8 +9,10 @@ test('name set correctly', () => {
 });
 
 test('number of hits is correct', () => {
-  expect(ship.hit()).toBe(1);
-  expect(ship.hit()).toBe(2);
+  ship.hit();
+  expect(ship.getHits()).toBe(1);
+  ship.hit();
+  expect(ship.getHits()).toBe(2);
   expect(() => invalidShip.hit().toThrow('invalid inputs'));
   expect(() => invalidShip2.hit().toThrow('invalid inputs'));
 });
