@@ -17,20 +17,58 @@ export default function gameBoardFactory() {
 
   const ships = {};
 
-  const placeShipAt = (firstIndex, lastIndex, length, name) => {
-    if (firstIndex == null || typeof firstIndex !== 'number')
-      throw new Error('Invalid ship firstIndex');
-    if (lastIndex == null || typeof lastIndex !== 'number')
-      throw new Error('Invalid ship lastIndex');
-    if (firstIndex > gameBoard.length || firstIndex < 0) return;
-    if (lastIndex > gameBoard.length || lastIndex < 0) return;
+  const placeShipAt = (start, end, length, name) => {
+    if (start == null || !Array.isArray(start))
+      throw new Error('Invalid ship start');
+    if (end == null || !Array.isArray(end)) throw new Error('Invalid ship end');
+    if (
+      start[0] > gameBoard.length ||
+      start[0] > gameBoard.length ||
+      start[0] < 0 ||
+      start[0] < 0
+    )
+      return;
+    if (
+      start[1] > gameBoard.length ||
+      start[1] > gameBoard.length ||
+      start[1] < 0 ||
+      start[1] < 0
+    )
+      return;
+    if (
+      end[0] > gameBoard.length ||
+      end[0] > gameBoard.length ||
+      end[0] < 0 ||
+      end[0] < 0
+    )
+      return;
+    if (
+      end[1] > gameBoard.length ||
+      end[1] > gameBoard.length ||
+      end[1] < 0 ||
+      end[1] < 0
+    )
+      return;
 
     const ship = shipFactory(length, name);
     if (ships[ship.name] !== ship.name) ships[ship.name] = ship;
 
-    for (let i = 0; i < lastIndex + 1; i += 1) {
-      if (gameBoard[firstIndex][i] === '') {
-        gameBoard[firstIndex][i] = ship.name;
+    if (start[0] === end[0] && start[1] !== end[1]) {
+      for (let i = 0; i < end[1] + 1; i += 1) {
+        if (gameBoard[start[0]][i] === '') {
+          gameBoard[start[0]][i] = ship.name;
+        }
+      }
+    } else if (start[1] === end[1] && start[0] !== end[0]) {
+      for (let i = 0; i < start[0] + 1; i += 1) {
+        if (gameBoard[start[1]][i] === '') {
+          gameBoard[start[1]][i] = ship.name;
+        }
+      }
+    } else {
+      // eslint-disable-next-line no-lonely-if
+      if (gameBoard[start[0]][start[0]] === '') {
+        gameBoard[start[0]][start[0]] = ship.name;
       }
     }
   };

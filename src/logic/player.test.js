@@ -11,7 +11,7 @@ test('player name is player one', () => {
 test('player humanAttack function works correctly', () => {
   const playerOne = Player('player one');
   const gameBoard = gameBoardFactory();
-  gameBoard.placeShipAt(0, 1, 1, 'marine');
+  gameBoard.placeShipAt([0, 0], [0, 0], 1, 'marine');
   playerOne.humanAttack(0, 0, gameBoard);
   expect(gameBoard.gameBoard[0][0]).toBe('marinex');
 });
