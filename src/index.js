@@ -1,4 +1,5 @@
-import displayController from './dom/displayController';
+import gameFactory from './logic/game';
 import './style.css';
 
-displayController();
+const game = gameFactory();
+game.run();

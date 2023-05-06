@@ -32,7 +32,7 @@ export default function Player(name) {
       row = Math.floor(Math.random() * 10);
       col = Math.floor(Math.random() * 10);
     }
-
+    hitCoordinates.push([row, col]);
     gameBoard.receiveAttack(row, col);
   };
   return {

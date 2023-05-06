@@ -53,10 +53,26 @@ h1 {
 .game-container__cell {
   flex: 1;
   border: 1px solid blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .game-container__cell.green {
   background-color: green;
+}
+
+.game-container__cell.red {
+  color: red;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.game-container__cell.hit {
+  background-color: green;
+  color: red;
+  font-size: 32px;
+  font-weight: 700;
 }
 
 .game-container__player {

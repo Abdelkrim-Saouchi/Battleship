@@ -78,8 +78,7 @@ export default function gameBoardFactory() {
       throw new Error('invalid row index/coordinate');
     if (col == null || typeof col !== 'number')
       throw new Error('invalid col index/coordinate');
-
-    if (gameBoard[row][col] !== '') {
+    if (gameBoard[row][col] !== '' && gameBoard[row][col] !== 'x') {
       ships[gameBoard[row][col]].hit();
       gameBoard[row][col] += 'x'; // ship name + x for hit ship's part
       return;
