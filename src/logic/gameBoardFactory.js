@@ -54,13 +54,13 @@ export default function gameBoardFactory() {
     if (ships[ship.name] !== ship.name) ships[ship.name] = ship;
 
     if (start[0] === end[0] && start[1] !== end[1]) {
-      for (let i = 0; i < end[1] + 1; i += 1) {
+      for (let i = start[1]; i < end[1] + 1; i += 1) {
         if (gameBoard[start[0]][i] === '') {
           gameBoard[start[0]][i] = ship.name;
         }
       }
     } else if (start[1] === end[1] && start[0] !== end[0]) {
-      for (let i = 0; i < start[0] + 1; i += 1) {
+      for (let i = start[0]; i < end[0] + 1; i += 1) {
         if (gameBoard[start[1]][i] === '') {
           gameBoard[start[1]][i] = ship.name;
         }

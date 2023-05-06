@@ -20,4 +20,9 @@ export default function gameFactory() {
   gameBoardTwo.placeShipAt([3, 0], [3, 2], 3, 'destroyer');
   gameBoardTwo.placeShipAt([5, 3], [5, 4], 2, 'submarine');
   gameBoardTwo.placeShipAt([7, 6], [7, 6], 1, 'patrol boat');
+
+  return {
+    gameBoardOne,
+    gameBoardTwo,
+  };
 }

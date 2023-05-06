@@ -39,6 +39,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Battleship',
+      filename: 'index.html',
+      template: 'src/template.html',
     }),
   ],
 
