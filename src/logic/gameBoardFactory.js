@@ -17,6 +17,16 @@ export default function gameBoardFactory() {
 
   const ships = {};
 
+  const removeX = (string) => {
+    if (string.length > 1) {
+      if (string.includes('x')) {
+        return string.slice(0, -1);
+      }
+      return string;
+    }
+    return string;
+  };
+
   const placeShipAt = (start, end, length, name) => {
     if (start == null || !Array.isArray(start))
       throw new Error('Invalid ship start');
@@ -78,12 +88,50 @@ export default function gameBoardFactory() {
       throw new Error('invalid row index/coordinate');
     if (col == null || typeof col !== 'number')
       throw new Error('invalid col index/coordinate');
-    if (gameBoard[row][col] !== '' && gameBoard[row][col] !== 'x') {
+    if (row > gameBoard.length - 1 || row < 0) return;
+    if (col > gameBoard[0].length - 1 || col < 0) return;
+
+    if (
+      gameBoard[row][col] !== '' &&
+      gameBoard[row][col] !== 'x' &&
+      !gameBoard[row][col].includes('x')
+    ) {
       ships[gameBoard[row][col]].hit();
       gameBoard[row][col] += 'x'; // ship name + x for hit ship's part
       return;
     }
+    if (
+      gameBoard[row][col] !== '' &&
+      gameBoard[row][col] !== 'x' &&
+      gameBoard[row][col].includes('x')
+    ) {
+      const shipName = removeX(gameBoard[row][col]);
+      ships[shipName].hit();
+      return;
+    }
     gameBoard[row][col] = 'x'; // letter X here for missed shots
+  };
+
+  const fillAroundSunkShip = () => {
+    for (let i = 0; i < gameBoard.length; i += 1) {
+      for (let j = 0; j < gameBoard[i].length; j += 1) {
+        // console.log('ship:', ships[gameBoard[i][j]]);
+        if (ships[removeX(gameBoard[i][j])] == null) {
+          // eslint-disable-next-line no-continue
+          continue;
+        } else if (ships[removeX(gameBoard[i][j])].isSunk()) {
+          // try all possible attacks coordinates, invalid coordinates will be handled by receiveAttack()
+          receiveAttack(i - 1, j);
+          receiveAttack(i + 1, j);
+          receiveAttack(i, j - 1);
+          receiveAttack(i, j + 1);
+          receiveAttack(i - 1, j - 1);
+          receiveAttack(i + 1, j + 1);
+          receiveAttack(i + 1, j - 1);
+          receiveAttack(i - 1, j + 1);
+        }
+      }
+    }
   };
 
   const allAreSunk = () => {
@@ -99,8 +147,10 @@ export default function gameBoardFactory() {
 
   return {
     gameBoard,
+    ships,
     placeShipAt,
     receiveAttack,
     allAreSunk,
+    fillAroundSunkShip,
   };
 }

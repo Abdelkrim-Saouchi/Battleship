@@ -1,8 +1,14 @@
 import gameBoardFactory from './gameBoardFactory';
+import shipFactory from './shipFactory';
 // import shipFactory from './shipFactory';
 
+let gameBoardObj;
+
+beforeEach(() => {
+  gameBoardObj = gameBoardFactory();
+});
+
 test('ship placed properly', () => {
-  const gameBoardObj = gameBoardFactory();
   const firstShipIndex = [0, 0];
   const lastShipIndex = [0, 4];
   const shipLength = 5;
@@ -18,7 +24,6 @@ test('ship placed properly', () => {
 });
 
 test('handling invalid first index and last index works', () => {
-  const gameBoardObj = gameBoardFactory();
   expect(() =>
     gameBoardObj.placeShipAt(undefined, [0, 1], 5, 'currier')
   ).toThrow('Invalid ship start');
@@ -32,7 +37,6 @@ test('handling invalid first index and last index works', () => {
 });
 
 test('handling misplacing ship works correctly', () => {
-  const gameBoardObj = gameBoardFactory();
   const firstIndex = [0, 8];
   const lastIndex = [0, 13];
   const shipLength = 5;
@@ -43,14 +47,12 @@ test('handling misplacing ship works correctly', () => {
 });
 
 test('prevent placing new ship on existed ship', () => {
-  const gameBoardObj = gameBoardFactory();
   gameBoardObj.placeShipAt([0, 0], [0, 4], 5, 'currier'); // old ship
   gameBoardObj.placeShipAt([0, 0], [0, 3], 4, 'BattleShip'); // new ship
   expect(gameBoardObj.gameBoard[0][0]).toBe('currier');
 });
 
 test('receiveAttack function works correctly', () => {
-  const gameBoardObj = gameBoardFactory();
   gameBoardObj.placeShipAt([0, 0], [0, 4], 5, 'currier'); // ship placed at first index 0 to last index 4 with length of 5
   gameBoardObj.receiveAttack(0, 0); // attack received on indexes 0 / 0 => ship get hit
   expect(gameBoardObj.gameBoard[0][0]).toMatch(`currierx`);
@@ -59,7 +61,6 @@ test('receiveAttack function works correctly', () => {
 });
 
 test('receiveAttack function handles errors and unexpected inputs', () => {
-  const gameBoardObj = gameBoardFactory();
   expect(() => gameBoardObj.receiveAttack()).toThrow(
     'invalid row index/coordinate'
   );
@@ -75,7 +76,6 @@ test('receiveAttack function handles errors and unexpected inputs', () => {
 });
 
 test('allAreSunk works correctly', () => {
-  const gameBoardObj = gameBoardFactory();
   gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
   gameBoardObj.receiveAttack(0, 0);
   expect(gameBoardObj.allAreSunk()).toBe(true);
@@ -85,4 +85,31 @@ test('allAreSunk works correctly', () => {
   gameBoardObj.receiveAttack(1, 0);
   gameBoardObj.receiveAttack(1, 2);
   expect(gameBoardObj.allAreSunk()).toBe(true);
+});
+
+test('ship added correctly to ships obj', () => {
+  gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
+  expect(gameBoardObj.ships[shipFactory(1, 'submarine').name].name).toEqual(
+    shipFactory(1, 'submarine').name
+  );
+});
+
+test('FillAroundSunkShip function works correctly', () => {
+  gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
+  gameBoardObj.placeShipAt([3, 2], [3, 2], 1, 'patrol');
+  gameBoardObj.receiveAttack(0, 0);
+  gameBoardObj.receiveAttack(3, 2);
+  gameBoardObj.fillAroundSunkShip();
+  gameBoardObj.fillAroundSunkShip();
+
+  expect(gameBoardObj.gameBoard[0][1]).toBe('x');
+  expect(gameBoardObj.gameBoard[1][0]).toBe('x');
+  expect(gameBoardObj.gameBoard[1][1]).toBe('x');
+
+  // expect(gameBoardObj.gameBoard[3][1]).toBe('x');
+  // expect(gameBoardObj.gameBoard[3][3]).toBe('x');
+  // expect(gameBoardObj.gameBoard[2][2]).toBe('x');
+  // expect(gameBoardObj.gameBoard[4][2]).toBe('x');
+  // expect(gameBoardObj.gameBoard[2][1]).toBe('x');
+  // expect(gameBoardObj.gameBoard[4][3]).toBe('x');
 });

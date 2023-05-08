@@ -20,6 +20,7 @@ export default function Player(name) {
     if (hasAlreadyHit(row, col)) return;
     hitCoordinates.push([row, col]);
     gameBoard.receiveAttack(row, col);
+    gameBoard.fillAroundSunkShip();
   };
 
   const computerAttack = (gameBoard) => {
@@ -34,6 +35,7 @@ export default function Player(name) {
     }
     hitCoordinates.push([row, col]);
     gameBoard.receiveAttack(row, col);
+    gameBoard.fillAroundSunkShip();
   };
   return {
     name,

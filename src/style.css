@@ -17,6 +17,9 @@ body {
 main {
   margin-bottom: auto;
   padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
@@ -33,6 +36,7 @@ h1 {
   width: 400px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 }
 
@@ -77,6 +81,34 @@ h1 {
 
 .game-container__player {
   color: blue;
+  font-size: larger;
+  font-weight: 600;
+}
+
+.game-control-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-control-panel__displayer {
+  font-size: 48px;
+  font-weight: 700;
+  margin-block: 16px;
+}
+
+.game-control-panel__restart-btn {
+  border: 0;
+  padding: 10px 16px;
+  background-color: blue;
+  color: white;
+  border-radius: 12px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.game-control-panel__restart-btn:is(:focus, :hover) {
+  opacity: 0.9;
 }
 
 footer {

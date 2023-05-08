@@ -29,33 +29,61 @@ export default function gameFactory() {
   displayCtrl.renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
   displayCtrl.renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
 
+  // check winner
+  const isWinner = (gameBoard) => gameBoard.allAreSunk();
+
+  // check if clicked before
+  const hasBeenClicked = (clicksList, coordinates) => {
+    for (let i = 0; i < clicksList.length; i += 1) {
+      if (
+        clicksList[i][0] === coordinates[0] &&
+        clicksList[i][1] === coordinates[1]
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // play game method
   const run = () => {
-    // while (!gameBoardOne.allAreSunk() || !gameBoardTwo.allAreSunk()) {
-    //   let attackCoordinates;
-    //   uiBoardTwo.addEventListener('click', (e) => {
-    //     attackCoordinates = displayCtrl.getAttackCoordinates(e.target, []);
-    //   });
-    // }
     let isHumanPlaying = true;
     let isComputerPlaying = false;
     let attackCoordinates = null;
+    const allReadyClicked = [];
     uiBoardTwo.addEventListener('click', (e) => {
       if (isHumanPlaying) {
         attackCoordinates = displayCtrl.getAttackCoordinates(e.target, []);
+        if (hasBeenClicked(allReadyClicked, attackCoordinates)) return;
+        allReadyClicked.push(attackCoordinates);
+
         if (attackCoordinates) {
-          console.log('enter');
           const [row, col] = attackCoordinates;
           playerOne.humanAttack(row, col, gameBoardTwo);
+          // gameBoardTwo.fillAroundSunkShip();
+          displayCtrl.renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
           isHumanPlaying = false;
           isComputerPlaying = true;
-          displayCtrl.renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
+          displayCtrl.changeDisplayer("Computer's turn");
+          if (isWinner(gameBoardTwo)) {
+            displayCtrl.changeDisplayer('Human player Wins!');
+            isComputerPlaying = false; // to stop the game
+          }
         }
       }
       if (isComputerPlaying) {
-        playerTwo.computerAttack(gameBoardOne);
-        displayCtrl.renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
-        isComputerPlaying = false;
-        isHumanPlaying = true;
+        setTimeout(() => {
+          playerTwo.computerAttack(gameBoardOne);
+          // gameBoardOne.fillAroundSunkShip();
+          displayCtrl.renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
+          isComputerPlaying = false;
+          isHumanPlaying = true;
+          displayCtrl.changeDisplayer('Your turn');
+          if (isWinner(gameBoardOne)) {
+            displayCtrl.changeDisplayer('Computer Wins!');
+            isHumanPlaying = false; // to stop the game
+          }
+        }, 1500);
       }
     });
   };

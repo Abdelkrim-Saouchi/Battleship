@@ -12,12 +12,6 @@ function createBoardCell() {
 }
 
 export default function displayController() {
-  //   const boardOne = createBoardGrid('.game-container__grid--one');
-  //   const boardTwo = createBoardGrid('.game-container__grid--two');
-  //   const game = gameFactory();
-
-  //   renderBoard(boardOne.children, game.gameBoardOne.gameBoard);
-  //   renderBoard(boardTwo.children, game.gameBoardTwo.gameBoard);
   const createBoardGrid = (parentClass) => {
     const parent = document.querySelector(parentClass);
     const ROWS = 10;
@@ -52,17 +46,6 @@ export default function displayController() {
     }
   };
 
-  //   const getAttackCoordinates = (boardGrid) => {
-  //     let coordinates = [];
-  //     boardGrid.addEventListener('click', (e) => {
-  //       if (coordinates.length > 0) {
-  //         coordinates = [];
-  //       }
-  //       coordinates.push(Number(e.target.parentElement.dataset.rowIndex));
-  //       coordinates.push(Number(e.target.dataset.colIndex));
-  //     });
-  //     return coordinates;
-  //   };
   const getAttackCoordinates = (target, coordinates) => {
     const coordinatesCopy = coordinates.slice(0);
     // if (coordinatesCopy.length > 0) {
@@ -73,9 +56,15 @@ export default function displayController() {
     return coordinatesCopy;
   };
 
+  const changeDisplayer = (phrase) => {
+    const displayer = document.querySelector('.game-control-panel__displayer');
+    displayer.textContent = phrase;
+  };
+
   return {
     createBoardGrid,
     renderBoard,
     getAttackCoordinates,
+    changeDisplayer,
   };
 }
