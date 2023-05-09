@@ -1,26 +1,28 @@
 /* eslint-disable no-param-reassign */
-function createBoardRow() {
+function createBoardRow(rowClass) {
   const row = document.createElement('div');
-  row.classList.add('game-container__row');
+  // row.classList.add('game-container__row');
+  row.classList.add(rowClass);
   return row;
 }
 
-function createBoardCell() {
+function createBoardCell(colClass) {
   const cell = document.createElement('div');
-  cell.classList.add('game-container__cell');
+  // cell.classList.add('game-container__cell');
+  cell.classList.add(colClass);
   return cell;
 }
 
 export default function displayController() {
-  const createBoardGrid = (parentClass) => {
-    const parent = document.querySelector(parentClass);
+  const createBoardGrid = (parentSelector, rowClass, colClass) => {
+    const parent = document.querySelector(parentSelector);
     const ROWS = 10;
     const COLUMNS = 10;
     for (let i = 0; i < ROWS; i += 1) {
-      const row = createBoardRow();
+      const row = createBoardRow(rowClass);
       row.dataset.rowIndex = i;
       for (let j = 0; j < COLUMNS; j += 1) {
-        const col = createBoardCell();
+        const col = createBoardCell(colClass);
         col.dataset.colIndex = j;
         row.appendChild(col);
       }

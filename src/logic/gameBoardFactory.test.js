@@ -105,11 +105,4 @@ test('FillAroundSunkShip function works correctly', () => {
   expect(gameBoardObj.gameBoard[0][1]).toBe('x');
   expect(gameBoardObj.gameBoard[1][0]).toBe('x');
   expect(gameBoardObj.gameBoard[1][1]).toBe('x');
-
-  // expect(gameBoardObj.gameBoard[3][1]).toBe('x');
-  // expect(gameBoardObj.gameBoard[3][3]).toBe('x');
-  // expect(gameBoardObj.gameBoard[2][2]).toBe('x');
-  // expect(gameBoardObj.gameBoard[4][2]).toBe('x');
-  // expect(gameBoardObj.gameBoard[2][1]).toBe('x');
-  // expect(gameBoardObj.gameBoard[4][3]).toBe('x');
 });

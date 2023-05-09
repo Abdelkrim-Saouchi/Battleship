@@ -12,6 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 main {
@@ -40,7 +41,8 @@ h1 {
   gap: 16px;
 }
 
-.game-container__grid {
+.game-container__grid,
+.start-section__start-grid {
   width: 400px;
   height: 400px;
   display: flex;
@@ -49,12 +51,14 @@ h1 {
   cursor: pointer;
 }
 
-.game-container__row {
+.game-container__row,
+.start-section__row {
   flex: 1;
   display: flex;
 }
 
-.game-container__cell {
+.game-container__cell,
+.start-section__cell {
   flex: 1;
   border: 1px solid blue;
   display: flex;
@@ -109,6 +113,43 @@ h1 {
 
 .game-control-panel__restart-btn:is(:focus, :hover) {
   opacity: 0.9;
+}
+
+.start-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  background-color: hsla(240, 100%, 50%, 0.836);
+  color: white;
+  font-size: 28px;
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  display: none;
+}
+
+.start-section__rotate-btn,
+.start-section__start-btn {
+  border: 0;
+  background-color: #062929;
+  color: inherit;
+  font-size: 20px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.start-section__start-grid {
+  border: 2px solid white;
+}
+
+.start-section__cell {
+  border: 1px solid white;
 }
 
 footer {

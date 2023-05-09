@@ -1,6 +1,7 @@
 import displayController from '../dom/displayController';
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
+import generateNoDuplicatedShipCoord from './startGame';
 
 export default function gameFactory() {
   const playerOne = Player('Human');
@@ -8,7 +9,21 @@ export default function gameFactory() {
   const gameBoardOne = gameBoardFactory(); // for playerOne
   const gameBoardTwo = gameBoardFactory(); // for playerTwo
 
+  const shipsCoord = generateNoDuplicatedShipCoord();
+  console.log('coord in game:', shipsCoord[0][1]);
+
   // place ships of playerOne
+  // gameBoardOne.placeShipAt(shipsCoord[0][0], shipsCoord[0][1], 5, 'currier');
+  // gameBoardOne.placeShipAt(shipsCoord[1][0], shipsCoord[1][1], 4, 'battleship');
+  // gameBoardOne.placeShipAt(shipsCoord[2][0], shipsCoord[2][1], 3, 'destroyer');
+  // gameBoardOne.placeShipAt(shipsCoord[3][0], shipsCoord[3][1], 2, 'submarine');
+  // gameBoardOne.placeShipAt(
+  //   shipsCoord[4][0],
+  //   shipsCoord[4][1],
+  //   1,
+  //   'patrol boat'
+  // );
+
   gameBoardOne.placeShipAt([0, 0], [0, 4], 5, 'currier');
   gameBoardOne.placeShipAt([9, 6], [9, 9], 4, 'battleship');
   gameBoardOne.placeShipAt([3, 0], [3, 2], 3, 'destroyer');
@@ -24,10 +39,38 @@ export default function gameFactory() {
 
   // render UI boards
   const displayCtrl = displayController();
-  const uiBoardOne = displayCtrl.createBoardGrid('.game-container__grid--one');
-  const uiBoardTwo = displayCtrl.createBoardGrid('.game-container__grid--two');
+  const uiBoardOne = displayCtrl.createBoardGrid(
+    '.game-container__grid--one',
+    'game-container__row',
+    'game-container__cell'
+  );
+  const uiBoardTwo = displayCtrl.createBoardGrid(
+    '.game-container__grid--two',
+    'game-container__row',
+    'game-container__cell'
+  );
   displayCtrl.renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
   displayCtrl.renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
+
+  // create and render start board
+  // const startBoard = gameBoardFactory();
+  // const shipsCoord = generateNoDuplicatedShipCoord();
+  // startBoard.placeShipAt(shipsCoord[0][0], shipsCoord[0][1], 5, 'currier');
+  // startBoard.placeShipAt(shipsCoord[1][0], shipsCoord[1][1], 4, 'battleship');
+  // startBoard.placeShipAt(shipsCoord[2][0], shipsCoord[2][1], 3, 'destroyer');
+  // startBoard.placeShipAt(shipsCoord[3][0], shipsCoord[3][1], 2, 'submarine');
+  // startBoard.placeShipAt(shipsCoord[4][0], shipsCoord[4][1], 1, 'patrol boat');
+
+  const startBoardUi = displayCtrl.createBoardGrid(
+    '.start-section__start-grid',
+    'start-section__row',
+    'start-section__cell'
+  );
+
+  // displayCtrl.renderBoard(startBoardUi.children, startBoard.gameBoard);
+
+  // select restart button
+  const restartBtn = document.querySelector('.game-control-panel__restart-btn');
 
   // check winner
   const isWinner = (gameBoard) => gameBoard.allAreSunk();
@@ -47,6 +90,10 @@ export default function gameFactory() {
 
   // play game method
   const run = () => {
+    startBoardUi.addEventListener('mouseover', (e) => {
+      console.log(e.target);
+    });
+
     let isHumanPlaying = true;
     let isComputerPlaying = false;
     let attackCoordinates = null;
@@ -86,6 +133,7 @@ export default function gameFactory() {
         }, 1500);
       }
     });
+    restartBtn.addEventListener('click', () => {});
   };
 
   return {
