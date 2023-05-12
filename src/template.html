@@ -9,6 +9,20 @@
   <body>
     <main>
       <h1>BattleShip</h1>
+      <div class="start-section">
+        <p class="start-section__choose-msg">Choose your ships positions</p>
+        <div class="start-section__ship-options">
+          <div id="0" class="start-section__currier" draggable="true"></div>
+          <div id="1" class="start-section__battleship" draggable="true"></div>
+          <div id="2" class="start-section__destroyer" draggable="true"></div>
+          <div id="3" class="start-section__submarine" draggable="true"></div>
+          <div id="4" class="start-section__patrol-boat" draggable="true"></div>
+        </div>
+        <button class="start-section__rotate-btn">Rotate</button>
+        <p class="start-section__axis-indicator">axis: Horizontal</p>
+        <!-- <div class="start-section__start-grid"></div>
+        <button class="start-section__start-btn">play</button> -->
+      </div>
       <div class="game-container">
         <div class="game-container__board game-container__board--one">
           <div class="game-container__grid game-container__grid--one"></div>
@@ -30,14 +44,6 @@
         </div>
       </div>
     </main>
-    <div class="start-section">
-      <p class="start-section__welcome-msg">Welcome to BattleShip Game</p>
-      <p class="start-section__choose-msg">Choose your ships positions</p>
-      <button class="start-section__rotate-btn">Rotate</button>
-      <p class="start-section__axis-indicator">axis:</p>
-      <div class="start-section__start-grid"></div>
-      <button class="start-section__start-btn">play</button>
-    </div>
     <footer>Created by Krimothiazine</footer>
   </body>
 </html>

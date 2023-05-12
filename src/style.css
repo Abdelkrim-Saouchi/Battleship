@@ -116,28 +116,54 @@ h1 {
 }
 
 .start-section {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 99;
-  background-color: hsla(240, 100%, 50%, 0.836);
-  color: white;
   font-size: 28px;
-  padding: 16px;
+  padding: 12px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  display: none;
+}
+
+.start-section__ship-options {
+  border: 5px solid blue;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.start-section__ship-options > div {
+  background-color: green;
+  height: 40px;
+  cursor: grab;
+}
+
+.start-section__currier {
+  width: 200px;
+}
+
+.start-section__battleship {
+  width: 160px;
+}
+
+.start-section__destroyer {
+  width: 120px;
+}
+
+.start-section__submarine {
+  width: 80px;
+}
+
+.start-section__patrol-boat {
+  width: 40px;
 }
 
 .start-section__rotate-btn,
 .start-section__start-btn {
   border: 0;
-  background-color: #062929;
-  color: inherit;
+  background-color: blue;
+  color: white;
   font-size: 20px;
   padding: 12px 24px;
   border-radius: 12px;
