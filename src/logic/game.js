@@ -1,7 +1,8 @@
 import displayController from '../dom/displayController';
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
-import generateNoDuplicatedShipCoord from './startGame';
+import generateShipCoords from './startGame';
+// import generateNoDuplicatedShipCoord from './startGame';
 
 export default function gameFactory() {
   const playerOne = Player('Human');
@@ -9,33 +10,26 @@ export default function gameFactory() {
   const gameBoardOne = gameBoardFactory(); // for playerOne
   const gameBoardTwo = gameBoardFactory(); // for playerTwo
 
-  const shipsCoord = generateNoDuplicatedShipCoord();
-  console.log('coord in game:', shipsCoord[0][1]);
-
-  // place ships of playerOne
-  // gameBoardOne.placeShipAt(shipsCoord[0][0], shipsCoord[0][1], 5, 'currier');
-  // gameBoardOne.placeShipAt(shipsCoord[1][0], shipsCoord[1][1], 4, 'battleship');
-  // gameBoardOne.placeShipAt(shipsCoord[2][0], shipsCoord[2][1], 3, 'destroyer');
-  // gameBoardOne.placeShipAt(shipsCoord[3][0], shipsCoord[3][1], 2, 'submarine');
-  // gameBoardOne.placeShipAt(
-  //   shipsCoord[4][0],
-  //   shipsCoord[4][1],
-  //   1,
-  //   'patrol boat'
-  // );
-
-  gameBoardOne.placeShipAt([0, 0], [0, 4], 5, 'currier');
+  // place ships of playerOne(Human)
+  gameBoardOne.placeShipAt([0, 0], [4, 0], 5, 'currier');
   gameBoardOne.placeShipAt([9, 6], [9, 9], 4, 'battleship');
-  gameBoardOne.placeShipAt([3, 0], [3, 2], 3, 'destroyer');
-  gameBoardOne.placeShipAt([5, 3], [5, 4], 2, 'submarine');
+  gameBoardOne.placeShipAt([3, 3], [5, 3], 3, 'destroyer');
+  gameBoardOne.placeShipAt([7, 3], [7, 4], 2, 'submarine');
   gameBoardOne.placeShipAt([7, 6], [7, 6], 1, 'patrol boat');
 
-  // place ships of playerTwo
-  gameBoardTwo.placeShipAt([0, 0], [0, 4], 5, 'currier');
-  gameBoardTwo.placeShipAt([9, 6], [9, 9], 4, 'battleship');
-  gameBoardTwo.placeShipAt([3, 0], [3, 2], 3, 'destroyer');
-  gameBoardTwo.placeShipAt([5, 3], [5, 4], 2, 'submarine');
-  gameBoardTwo.placeShipAt([7, 6], [7, 6], 1, 'patrol boat');
+  // place ships of playerTwo(Computer)
+  const shipsCoord = generateShipCoords();
+
+  gameBoardTwo.placeShipAt(shipsCoord[0][0], shipsCoord[0][1], 5, 'currier');
+  gameBoardTwo.placeShipAt(shipsCoord[1][0], shipsCoord[1][1], 4, 'battleship');
+  gameBoardTwo.placeShipAt(shipsCoord[2][0], shipsCoord[2][1], 3, 'destroyer');
+  gameBoardTwo.placeShipAt(shipsCoord[3][0], shipsCoord[3][1], 2, 'submarine');
+  gameBoardTwo.placeShipAt(
+    shipsCoord[4][0],
+    shipsCoord[4][1],
+    1,
+    'patrol boat'
+  );
 
   // render UI boards
   const displayCtrl = displayController();
@@ -91,7 +85,7 @@ export default function gameFactory() {
   // play game method
   const run = () => {
     startBoardUi.addEventListener('mouseover', (e) => {
-      console.log(e.target);
+      // console.log(e.target);
     });
 
     let isHumanPlaying = true;

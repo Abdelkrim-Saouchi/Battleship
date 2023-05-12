@@ -61,7 +61,7 @@ export default function gameBoardFactory() {
       return;
 
     const ship = shipFactory(length, name);
-    if (ships[ship.name] !== ship.name) ships[ship.name] = ship;
+    if (!ships[ship.name]) ships[ship.name] = ship;
 
     if (start[0] === end[0] && start[1] !== end[1]) {
       for (let i = start[1]; i < end[1] + 1; i += 1) {
@@ -71,8 +71,8 @@ export default function gameBoardFactory() {
       }
     } else if (start[1] === end[1] && start[0] !== end[0]) {
       for (let i = start[0]; i < end[0] + 1; i += 1) {
-        if (gameBoard[start[1]][i] === '') {
-          gameBoard[start[1]][i] = ship.name;
+        if (gameBoard[i][start[1]] === '') {
+          gameBoard[i][start[1]] = ship.name;
         }
       }
     } else {
