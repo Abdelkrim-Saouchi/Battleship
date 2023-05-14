@@ -18,11 +18,8 @@ export default function gameBoardFactory() {
   const ships = {};
 
   const removeX = (string) => {
-    if (string.length > 1) {
-      if (string.includes('x')) {
-        return string.slice(0, -1);
-      }
-      return string;
+    if (string.length > 1 && string.includes('x')) {
+      return string.slice(0, -1);
     }
     return string;
   };
@@ -31,55 +28,58 @@ export default function gameBoardFactory() {
     if (start == null || !Array.isArray(start))
       throw new Error('Invalid ship start');
     if (end == null || !Array.isArray(end)) throw new Error('Invalid ship end');
+
+    const [startRow, startCol] = start;
+    const [endRow, endCol] = end;
+
     if (
-      start[0] > gameBoard.length ||
-      start[0] > gameBoard.length ||
-      start[0] < 0 ||
-      start[0] < 0
+      startRow > gameBoard.length ||
+      startRow > gameBoard.length ||
+      startRow < 0 ||
+      startRow < 0
     )
       return;
     if (
-      start[1] > gameBoard.length ||
-      start[1] > gameBoard.length ||
-      start[1] < 0 ||
-      start[1] < 0
+      startCol > gameBoard.length ||
+      startCol > gameBoard.length ||
+      startCol < 0 ||
+      startCol < 0
     )
       return;
     if (
-      end[0] > gameBoard.length ||
-      end[0] > gameBoard.length ||
-      end[0] < 0 ||
-      end[0] < 0
+      endRow > gameBoard.length ||
+      endRow > gameBoard.length ||
+      endRow < 0 ||
+      endRow < 0
     )
       return;
     if (
-      end[1] > gameBoard.length ||
-      end[1] > gameBoard.length ||
-      end[1] < 0 ||
-      end[1] < 0
+      endCol > gameBoard.length ||
+      endCol > gameBoard.length ||
+      endCol < 0 ||
+      endCol < 0
     )
       return;
 
     const ship = shipFactory(length, name);
     if (!ships[ship.name]) ships[ship.name] = ship;
 
-    if (start[0] === end[0] && start[1] !== end[1]) {
-      for (let i = start[1]; i < end[1] + 1; i += 1) {
-        if (gameBoard[start[0]][i] === '') {
-          gameBoard[start[0]][i] = ship.name;
+    if (startRow === endRow && startCol !== endCol) {
+      for (let i = startCol; i < endCol + 1; i += 1) {
+        if (gameBoard[startRow][i] === '') {
+          gameBoard[startRow][i] = ship.name;
         }
       }
-    } else if (start[1] === end[1] && start[0] !== end[0]) {
-      for (let i = start[0]; i < end[0] + 1; i += 1) {
-        if (gameBoard[i][start[1]] === '') {
-          gameBoard[i][start[1]] = ship.name;
+    } else if (startCol === endCol && startRow !== endRow) {
+      for (let i = startRow; i < endRow + 1; i += 1) {
+        if (gameBoard[i][startCol] === '') {
+          gameBoard[i][startCol] = ship.name;
         }
       }
-    } else {
-      // eslint-disable-next-line no-lonely-if
-      if (gameBoard[start[0]][start[0]] === '') {
-        gameBoard[start[0]][start[0]] = ship.name;
-      }
+    } else if (startRow !== startCol && gameBoard[startRow][startCol] === '') {
+      gameBoard[startRow][startCol] = ship.name;
+    } else if (startRow === startCol && gameBoard[startRow][startRow] === '') {
+      gameBoard[startRow][startRow] = ship.name;
     }
   };
 
@@ -115,7 +115,6 @@ export default function gameBoardFactory() {
   const fillAroundSunkShip = () => {
     for (let i = 0; i < gameBoard.length; i += 1) {
       for (let j = 0; j < gameBoard[i].length; j += 1) {
-        // console.log('ship:', ships[gameBoard[i][j]]);
         if (ships[removeX(gameBoard[i][j])] == null) {
           // eslint-disable-next-line no-continue
           continue;

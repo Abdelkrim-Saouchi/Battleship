@@ -9,7 +9,7 @@ export default function shipFactory(length, name) {
   const isSunk = () => {
     if (length == null || typeof length !== 'number')
       throw new Error('invalid inputs');
-    if (length <= hits) return true;
+    if (hits >= length) return true;
     return false;
   };
   return {

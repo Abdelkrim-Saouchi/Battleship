@@ -21,6 +21,16 @@ test('ship placed properly', () => {
   for (let i = 0; i < lastShipIndex + 1; i += 1) {
     expect(gameBoardObj.gameBoard[0][i]).toBe('currier');
   }
+
+  gameBoardObj.placeShipAt([1, 0], [2, 0], 1, 'submarine');
+  for (let i = 1; i < 3; i += 1) {
+    expect(gameBoardObj.gameBoard[i][0]).toBe('submarine');
+  }
+
+  gameBoardObj.placeShipAt([3, 2], [3, 2], 1, 'patrol');
+  for (let i = 2; i < 3; i += 1) {
+    expect(gameBoardObj.gameBoard[3][i]).toBe('patrol');
+  }
 });
 
 test('handling invalid first index and last index works', () => {
@@ -56,7 +66,7 @@ test('receiveAttack function works correctly', () => {
   gameBoardObj.placeShipAt([0, 0], [0, 4], 5, 'currier'); // ship placed at first index 0 to last index 4 with length of 5
   gameBoardObj.receiveAttack(0, 0); // attack received on indexes 0 / 0 => ship get hit
   expect(gameBoardObj.gameBoard[0][0]).toMatch(`currierx`);
-  gameBoardObj.receiveAttack(0, 5);
+  gameBoardObj.receiveAttack(0, 5); // attack miss ship
   expect(gameBoardObj.gameBoard[0][5]).toBe('x');
 });
 
@@ -96,13 +106,20 @@ test('ship added correctly to ships obj', () => {
 
 test('FillAroundSunkShip function works correctly', () => {
   gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
-  gameBoardObj.placeShipAt([3, 2], [3, 2], 1, 'patrol');
   gameBoardObj.receiveAttack(0, 0);
-  gameBoardObj.receiveAttack(3, 2);
-  gameBoardObj.fillAroundSunkShip();
   gameBoardObj.fillAroundSunkShip();
 
   expect(gameBoardObj.gameBoard[0][1]).toBe('x');
   expect(gameBoardObj.gameBoard[1][0]).toBe('x');
   expect(gameBoardObj.gameBoard[1][1]).toBe('x');
+
+  gameBoardObj.placeShipAt([3, 2], [3, 2], 1, 'patrol');
+  gameBoardObj.receiveAttack(3, 2);
+  gameBoardObj.fillAroundSunkShip();
+  expect(gameBoardObj.gameBoard[3][1]).toBe('x');
+  expect(gameBoardObj.gameBoard[2][2]).toBe('x');
+  expect(gameBoardObj.gameBoard[2][3]).toBe('x');
+  expect(gameBoardObj.gameBoard[3][3]).toBe('x');
+  expect(gameBoardObj.gameBoard[4][2]).toBe('x');
+  expect(gameBoardObj.gameBoard[4][1]).toBe('x');
 });

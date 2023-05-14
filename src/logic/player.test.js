@@ -1,7 +1,7 @@
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
 
-test('player name is player one', () => {
+test('player name is set correctly', () => {
   const playerOne = Player('player one');
   expect(playerOne.name).toBe('player one');
   const computer = Player('computer');
