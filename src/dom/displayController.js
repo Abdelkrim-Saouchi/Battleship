@@ -73,6 +73,50 @@ const shipNames = [
 ];
 const shipsLength = [5, 4, 3, 2, 1];
 
+const hasAlreadyChosen = [];
+
+function isSameStart(startRow, startCol) {
+  for (let i = 0; i < hasAlreadyChosen.length; i += 1) {
+    if (
+      hasAlreadyChosen[i][0][0] === startRow &&
+      hasAlreadyChosen[i][0][1] === startCol
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isValidPosition(startRow, startCol, endRow, endCol) {
+  for (let i = 0; i < hasAlreadyChosen.length; i += 1) {
+    const chosenStartCol = hasAlreadyChosen[i][0][1];
+    const chosenEndCol = hasAlreadyChosen[i][1][1];
+    const chosenStartRow = hasAlreadyChosen[i][0][0];
+    const chosenEndRow = hasAlreadyChosen[i][1][0];
+    if (
+      (startRow === chosenStartRow &&
+        startCol > chosenStartCol &&
+        startCol <= chosenEndCol) ||
+      (startRow === chosenStartRow &&
+        endCol > chosenStartCol &&
+        endCol <= chosenEndCol)
+    ) {
+      return false;
+    }
+    if (
+      (startCol === chosenStartCol &&
+        startRow > chosenStartRow &&
+        startRow <= chosenEndRow) ||
+      (startCol === chosenStartCol &&
+        endRow > chosenStartRow &&
+        endRow <= chosenEndRow)
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function dragStart(e) {
   draggedShip = e.target;
 }
@@ -106,6 +150,16 @@ export function dropShip(e) {
     endCol = startCol;
   }
 
+  if (isSameStart(startRow, startCol)) return;
+  if (!isValidPosition(startRow, startCol, endRow, endCol)) return;
+  hasAlreadyChosen.push([
+    [startRow, startCol],
+    [endRow, endCol],
+  ]);
+
+  // remove dragged ship form ships options
+  draggedShip.remove();
+
   // eslint-disable-next-line consistent-return
   return {
     shipName,
@@ -113,4 +167,15 @@ export function dropShip(e) {
     start: [startRow, startCol],
     end: [endRow, endCol],
   };
+}
+
+export function changeDirection() {
+  const directionDisplay = document.querySelector(
+    '.start-section__axis-indicator'
+  );
+  directionDisplay.textContent =
+    directionDisplay.textContent === 'axis: Horizontal'
+      ? 'axis: Vertical'
+      : 'axis: Horizontal';
+  direction = direction === 'horizontal' ? 'vertical' : 'horizontal';
 }

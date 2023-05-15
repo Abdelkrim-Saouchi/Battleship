@@ -6,6 +6,7 @@ import {
   dragOver,
   dragStart,
   dropShip,
+  changeDirection,
 } from '../dom/displayController';
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
@@ -62,15 +63,21 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
   playerCell.addEventListener('dragover', dragOver);
   playerCell.addEventListener('drop', (e) => {
     const humanShip = dropShip(e);
-    gameBoardOne.placeShipAt(
-      humanShip.start,
-      humanShip.end,
-      humanShip.shipLength,
-      humanShip.shipName
-    );
-    renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
+    if (humanShip) {
+      gameBoardOne.placeShipAt(
+        humanShip.start,
+        humanShip.end,
+        humanShip.shipLength,
+        humanShip.shipName
+      );
+      renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
+    }
   });
 });
+
+// rotate Btn
+const rotateBtn = document.querySelector('.start-section__rotate-btn');
+rotateBtn.addEventListener('click', changeDirection);
 
 // check winner
 const isWinner = (gameBoard) => gameBoard.allAreSunk();

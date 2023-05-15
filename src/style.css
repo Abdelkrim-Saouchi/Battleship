@@ -132,6 +132,8 @@ h1 {
   justify-content: space-between;
   align-items: center;
   gap: 8px;
+  min-width: 200px;
+  min-height: 40px;
 }
 .start-section__ship-options > div {
   background-color: green;
