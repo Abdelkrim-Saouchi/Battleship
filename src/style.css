@@ -38,11 +38,31 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 16px;
 }
 
-.game-container__grid,
-.start-section__start-grid {
+.game-container__board--two {
+  position: relative;
+}
+
+.game-container__start-play-container {
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.651);
+  z-index: 99;
+  padding: 16px;
+  width: 100%;
+  height: 92%;
+  font-size: 28px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.795);
+}
+
+.game-container__start-display {
+  margin-bottom: 16px;
+}
+
+.game-container__grid {
   width: 400px;
   height: 400px;
   display: flex;
@@ -101,7 +121,8 @@ h1 {
   margin-block: 16px;
 }
 
-.game-control-panel__restart-btn {
+.game-control-panel__restart-btn,
+.game-container__play-btn {
   border: 0;
   padding: 10px 16px;
   background-color: blue;
@@ -161,8 +182,7 @@ h1 {
   width: 40px;
 }
 
-.start-section__rotate-btn,
-.start-section__start-btn {
+.start-section__rotate-btn {
   border: 0;
   background-color: blue;
   color: white;
@@ -182,4 +202,8 @@ h1 {
 
 footer {
   padding: 32px;
+}
+
+.hidden {
+  display: none;
 }

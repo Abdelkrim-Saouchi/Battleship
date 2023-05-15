@@ -15,7 +15,7 @@ export default function gameBoardFactory() {
     ['', '', '', '', '', '', '', '', '', ''],
   ];
 
-  const ships = {};
+  let ships = {};
 
   const removeX = (string) => {
     if (string.length > 1 && string.includes('x')) {
@@ -144,12 +144,25 @@ export default function gameBoardFactory() {
     return areSunk.every((statement) => statement === true);
   };
 
+  const cleanGameBoard = () => {
+    for (let i = 0; i < gameBoard.length; i += 1) {
+      for (let j = 0; j < gameBoard[i].length; j += 1) {
+        gameBoard[i][j] = '';
+      }
+    }
+  };
+
+  const cleanShips = () => {
+    ships = {};
+  };
+
   return {
     gameBoard,
-    ships,
     placeShipAt,
     receiveAttack,
     allAreSunk,
     fillAroundSunkShip,
+    cleanGameBoard,
+    cleanShips,
   };
 }

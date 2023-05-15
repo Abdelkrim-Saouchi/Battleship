@@ -7,9 +7,19 @@ import {
   dragStart,
   dropShip,
   changeDirection,
+  startPlaying,
+  redisplayStartContainer,
+  redisplayShipOptions,
+  cleanUiBoard,
 } from '../dom/displayController';
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
+
+// global variables to define the state of game
+let isHumanPlaying = true;
+let isComputerPlaying = false;
+let attackCoordinates = null;
+let allReadyClicked = [];
 
 const playerOne = Player('Human');
 const playerTwo = Player('Computer');
@@ -79,6 +89,64 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
 const rotateBtn = document.querySelector('.start-section__rotate-btn');
 rotateBtn.addEventListener('click', changeDirection);
 
+// start play Btn
+const playBtn = document.querySelector('.game-container__play-btn');
+playBtn.addEventListener('click', startPlaying);
+
+// restart Btn
+const restartBtn = document.querySelector('.game-control-panel__restart-btn');
+restartBtn.addEventListener('click', () => {
+  isHumanPlaying = true;
+  isComputerPlaying = false;
+  attackCoordinates = null;
+  allReadyClicked = [];
+
+  redisplayStartContainer();
+  redisplayShipOptions();
+  changeDisplayer('Your turn');
+  gameBoardOne.cleanGameBoard();
+  gameBoardTwo.cleanGameBoard();
+  gameBoardOne.cleanShips();
+  gameBoardTwo.cleanShips();
+  cleanUiBoard(uiBoardOne.children);
+  cleanUiBoard(uiBoardTwo.children);
+
+  const newShipsCoord = playerTwo.generateRandomShipCoords();
+
+  gameBoardTwo.placeShipAt(
+    newShipsCoord[0][0],
+    newShipsCoord[0][1],
+    5,
+    'currier'
+  );
+  gameBoardTwo.placeShipAt(
+    newShipsCoord[1][0],
+    newShipsCoord[1][1],
+    4,
+    'battleship'
+  );
+  gameBoardTwo.placeShipAt(
+    newShipsCoord[2][0],
+    newShipsCoord[2][1],
+    3,
+    'destroyer'
+  );
+  gameBoardTwo.placeShipAt(
+    newShipsCoord[3][0],
+    newShipsCoord[3][1],
+    2,
+    'submarine'
+  );
+  gameBoardTwo.placeShipAt(
+    newShipsCoord[4][0],
+    newShipsCoord[4][1],
+    1,
+    'patrol boat'
+  );
+
+  renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
+  renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
+});
 // check winner
 const isWinner = (gameBoard) => gameBoard.allAreSunk();
 
@@ -97,10 +165,6 @@ const hasBeenClicked = (clicksList, coordinates) => {
 
 // game loop
 export default function play() {
-  let isHumanPlaying = true;
-  let isComputerPlaying = false;
-  let attackCoordinates = null;
-  const allReadyClicked = [];
   uiBoardTwo.addEventListener('click', (e) => {
     if (isHumanPlaying) {
       attackCoordinates = getAttackCoordinates(e.target, []);

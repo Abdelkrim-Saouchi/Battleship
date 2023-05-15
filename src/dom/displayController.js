@@ -47,6 +47,17 @@ export const renderBoard = (boardGrid, boardData) => {
   }
 };
 
+export const cleanUiBoard = (boardGrid) => {
+  for (let i = 0; i < boardGrid.length; i += 1) {
+    for (let j = 0; j < boardGrid[i].children.length; j += 1) {
+      boardGrid[i].children[j].classList.remove('green');
+      boardGrid[i].children[j].classList.remove('red');
+      boardGrid[i].children[j].classList.remove('hit');
+      boardGrid[i].children[j].innerHTML = '';
+    }
+  }
+};
+
 export const getAttackCoordinates = (target, coordinates) => {
   const coordinatesCopy = coordinates.slice(0);
   // if (coordinatesCopy.length > 0) {
@@ -73,7 +84,7 @@ const shipNames = [
 ];
 const shipsLength = [5, 4, 3, 2, 1];
 
-const hasAlreadyChosen = [];
+let hasAlreadyChosen = [];
 
 function isSameStart(startRow, startCol) {
   for (let i = 0; i < hasAlreadyChosen.length; i += 1) {
@@ -157,9 +168,8 @@ export function dropShip(e) {
     [endRow, endCol],
   ]);
 
-  // remove dragged ship form ships options
-  draggedShip.remove();
-
+  // hide dragged ship form ships options
+  draggedShip.classList.add('hidden');
   // eslint-disable-next-line consistent-return
   return {
     shipName,
@@ -178,4 +188,36 @@ export function changeDirection() {
       ? 'axis: Vertical'
       : 'axis: Horizontal';
   direction = direction === 'horizontal' ? 'vertical' : 'horizontal';
+}
+
+const shipsOptions = Array.from(
+  document.querySelectorAll('.start-section__ship-options > div')
+);
+function isGameReady() {
+  for (let i = 0; i < shipsOptions.length; i += 1) {
+    if (!shipsOptions[i].classList.contains('hidden')) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const startPlayContainer = document.querySelector(
+  '.game-container__start-play-container'
+);
+
+export function startPlaying() {
+  if (isGameReady()) {
+    startPlayContainer.classList.add('hidden');
+  }
+}
+
+export function redisplayStartContainer() {
+  startPlayContainer.classList.remove('hidden');
+}
+
+export function redisplayShipOptions() {
+  shipsOptions.forEach((shipOption) => shipOption.classList.remove('hidden'));
+  // rest tracking array for new ship positioning
+  hasAlreadyChosen = [];
 }
