@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+  <script defer src="runtimebe08cb898b3261242863.js"></script><script defer src="bundle31d635943f8dc1fff4c8.js"></script></head>
+  <body>
+    <main>
+      <h1>BattleShip</h1>
+      <div class="start-section">
+        <p class="start-section__choose-msg">Choose your ships positions</p>
+        <div class="start-section__ship-options">
+          <div id="0" class="start-section__currier" draggable="true"></div>
+          <div id="1" class="start-section__battleship" draggable="true"></div>
+          <div id="2" class="start-section__destroyer" draggable="true"></div>
+          <div id="3" class="start-section__submarine" draggable="true"></div>
+          <div id="4" class="start-section__patrol-boat" draggable="true"></div>
+        </div>
+        <button class="start-section__rotate-btn">Rotate</button>
+        <p class="start-section__axis-indicator">axis: Horizontal</p>
+      </div>
+      <div class="game-container">
+        <div class="game-container__board game-container__board--one">
+          <div class="game-container__grid game-container__grid--one"></div>
+          <p class="game-container__player game-container__player--one">
+            Your grid
+          </p>
+        </div>
+        <div class="game-container__board game-container__board--two">
+          <div class="game-container__grid game-container__grid--two"></div>
+          <p class="game-container__player game-container__player--two">
+            Opponent grid
+          </p>
+          <div class="game-container__start-play-container">
+            <p class="game-container__start-display">Let's Play!</p>
+            <button class="game-container__play-btn">Play</button>
+          </div>
+        </div>
+      </div>
+      <div class="game-control-panel">
+        <div class="game-control-panel__displayer">Your turn</div>
+        <div class="game-control-panel__buttons">
+          <button class="game-control-panel__restart-btn">Restart</button>
+        </div>
+      </div>
+    </main>
+    <footer>Created by <a href="">Krimothiazine</a></footer>
+  </body>
+</html>
