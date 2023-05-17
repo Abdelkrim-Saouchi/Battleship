@@ -18,7 +18,7 @@
 }
 
 body {
-  min-height: 100dvh;
+  /* min-height: 100dvh; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -39,6 +39,7 @@ main {
 
 h1 {
   text-align: center;
+  font-size: 42px;
   margin-bottom: 32px;
 }
 
@@ -52,7 +53,6 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 16px;
 }
 
@@ -62,9 +62,9 @@ h1 {
 
 .game-container__start-play-container {
   position: absolute;
-  background-color: rgba(128, 128, 128, 0.651);
+  background-color: rgba(128, 128, 128, 0.9);
   z-index: 99;
-  padding: 16px;
+  padding: 32px;
   width: 100%;
   height: 92%;
   font-size: 28px;
@@ -92,8 +92,7 @@ h1 {
   display: flex;
 }
 
-.game-container__cell,
-.start-section__cell {
+.game-container__cell {
   flex: 1;
   border: 1px solid var(--Light-Gray);
   display: flex;
@@ -126,7 +125,7 @@ h1 {
 }
 
 .game-control-panel__displayer {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
   margin-block: 16px;
 }
@@ -135,12 +134,14 @@ h1 {
 .game-container__play-btn {
   border: 0;
   padding: 10px 16px;
+  min-width: 100px;
   background-color: var(--Navy-Blue);
   color: var(--White);
   border-radius: 12px;
-  font-size: 28px;
+  font-size: 22px;
   font-family: inherit;
   cursor: pointer;
+  margin-bottom: 16px;
 }
 
 .game-control-panel__restart-btn:is(:focus, :hover),
@@ -163,10 +164,11 @@ h1 {
   border: 5px solid var(--Navy-Blue);
   padding: 8px;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
   align-items: center;
   gap: 8px;
-  min-width: 200px;
+  min-width: 150px;
   min-height: 40px;
 }
 .start-section__ship-options > div {
@@ -197,27 +199,76 @@ h1 {
 
 .start-section__rotate-btn {
   border: 0;
+  max-width: 100px;
   background-color: var(--Navy-Blue);
   color: var(--White);
-  font-size: 20px;
+  font-size: 22px;
   font-family: inherit;
   padding: 12px 24px;
   border-radius: 12px;
   cursor: pointer;
 }
 
-/* .start-section__start-grid {
-  border: 2px solid var(--White);
-} */
-
-.start-section__cell {
-  border: 1px solid var(--White);
-}
-
 footer {
   padding: 32px;
+  font-size: 20px;
+  align-self: stretch;
+  text-align: center;
+  background-color: var(--Navy-Blue);
+  color: var(--White);
+}
+
+footer a {
+  text-decoration: none;
+  color: var(--White);
+}
+
+footer a:is(:focus, :hover) {
+  text-decoration: underline;
 }
 
 .hidden {
   display: none;
+}
+
+@media (width < 900px) {
+  main {
+    padding: 8px;
+  }
+  .game-container {
+    flex-direction: column;
+  }
+}
+
+@media (width < 500px) {
+  .game-container__board {
+    width: 350px;
+  }
+  .game-container__grid {
+    width: 350px;
+    height: 350px;
+  }
+  .start-section__ship-options > div {
+    height: 35px;
+  }
+
+  .start-section__currier {
+    width: 175px;
+  }
+
+  .start-section__battleship {
+    width: 140px;
+  }
+
+  .start-section__destroyer {
+    width: 105px;
+  }
+
+  .start-section__submarine {
+    width: 70px;
+  }
+
+  .start-section__patrol-boat {
+    width: 35px;
+  }
 }

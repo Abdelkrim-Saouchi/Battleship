@@ -49,8 +49,8 @@ const uiComputerBoard = createBoardGrid(
 );
 
 // render UI boards
-renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
-renderBoard(uiComputerBoard.children, computerBoard.gameBoard);
+renderBoard(uiHumanBoard.children, humanBoard.gameBoard, humanPlayer.name);
+renderBoard(uiComputerBoard.children, computerBoard.gameBoard, computer.name);
 
 // select and place human player ships
 const shipOptionsContainer = document.querySelector(
@@ -77,7 +77,11 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
         humanShip.shipLength,
         humanShip.shipName
       );
-      renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
+      renderBoard(
+        uiHumanBoard.children,
+        humanBoard.gameBoard,
+        humanPlayer.name
+      );
     }
   });
 });
@@ -147,8 +151,8 @@ restartBtn.addEventListener('click', () => {
   );
 
   // rerender game UI
-  renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
-  renderBoard(uiComputerBoard.children, computerBoard.gameBoard);
+  renderBoard(uiHumanBoard.children, humanBoard.gameBoard, humanPlayer.name);
+  renderBoard(uiComputerBoard.children, computerBoard.gameBoard, computer.name);
 });
 
 // check winner
@@ -181,7 +185,11 @@ export default function play() {
         isHumanPlaying = false;
         isComputerPlaying = true;
         changeDisplayer("Computer's turn");
-        renderBoard(uiComputerBoard.children, computerBoard.gameBoard);
+        renderBoard(
+          uiComputerBoard.children,
+          computerBoard.gameBoard,
+          computer.name
+        );
         if (isWinner(computerBoard)) {
           changeDisplayer('Human player Wins!');
           isComputerPlaying = false; // to stop the game
@@ -195,7 +203,11 @@ export default function play() {
         isComputerPlaying = false;
         isHumanPlaying = true;
         changeDisplayer('Your turn');
-        renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
+        renderBoard(
+          uiHumanBoard.children,
+          humanBoard.gameBoard,
+          humanPlayer.name
+        );
         if (isWinner(humanBoard)) {
           changeDisplayer('Computer Wins!');
           isHumanPlaying = false; // to stop the game

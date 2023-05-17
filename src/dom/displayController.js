@@ -29,10 +29,14 @@ export const createBoardGrid = (parentSelector, rowClass, colClass) => {
   return parent;
 };
 
-export const renderBoard = (boardGrid, boardData) => {
+export const renderBoard = (boardGrid, boardData, playerName) => {
   for (let i = 0; i < boardData.length; i += 1) {
     for (let j = 0; j < boardData[i].length; j += 1) {
-      if (boardData[i][j] !== '' && !boardData[i][j].includes('x')) {
+      if (
+        boardData[i][j] !== '' &&
+        !boardData[i][j].includes('x') &&
+        playerName === 'Human'
+      ) {
         boardGrid[i].children[j].classList.add('green');
       } else if (boardData[i][j] !== '' && boardData[i][j] === 'x') {
         boardGrid[i].children[j].classList.add('missed');
