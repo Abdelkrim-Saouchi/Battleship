@@ -15,56 +15,53 @@ import {
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
 
-// global variables to define the state of game
+// global variables to define the state of the game
 let isHumanPlaying = true;
 let isComputerPlaying = false;
 let attackCoordinates = null;
 let allReadyClicked = [];
 
-const playerOne = Player('Human');
-const playerTwo = Player('Computer');
-const gameBoardOne = gameBoardFactory(); // for playerOne
-const gameBoardTwo = gameBoardFactory(); // for playerTwo
+// create players and boards
+const humanPlayer = Player('Human');
+const computer = Player('Computer');
+const humanBoard = gameBoardFactory(); // for humanPlayer
+const computerBoard = gameBoardFactory(); // for computer
 
-// place ships of playerTwo(Computer)
-const shipsCoord = playerTwo.generateRandomShipCoords();
+// place ships of computer
+const shipsCoord = computer.generateRandomShipCoords();
 
-gameBoardTwo.placeShipAt(shipsCoord[0][0], shipsCoord[0][1], 5, 'currier');
-gameBoardTwo.placeShipAt(shipsCoord[1][0], shipsCoord[1][1], 4, 'battleship');
-gameBoardTwo.placeShipAt(shipsCoord[2][0], shipsCoord[2][1], 3, 'destroyer');
-gameBoardTwo.placeShipAt(shipsCoord[3][0], shipsCoord[3][1], 2, 'submarine');
-gameBoardTwo.placeShipAt(shipsCoord[4][0], shipsCoord[4][1], 1, 'patrol boat');
+computerBoard.placeShipAt(shipsCoord[0][0], shipsCoord[0][1], 5, 'currier');
+computerBoard.placeShipAt(shipsCoord[1][0], shipsCoord[1][1], 4, 'battleship');
+computerBoard.placeShipAt(shipsCoord[2][0], shipsCoord[2][1], 3, 'destroyer');
+computerBoard.placeShipAt(shipsCoord[3][0], shipsCoord[3][1], 2, 'submarine');
+computerBoard.placeShipAt(shipsCoord[4][0], shipsCoord[4][1], 1, 'patrol boat');
 
-// place ships of playerOne(Human)
-// gameBoardOne.placeShipAt([0, 0], [4, 0], 5, 'currier');
-// gameBoardOne.placeShipAt([9, 6], [9, 9], 4, 'battleship');
-// gameBoardOne.placeShipAt([3, 3], [5, 3], 3, 'destroyer');
-// gameBoardOne.placeShipAt([7, 3], [7, 4], 2, 'submarine');
-// gameBoardOne.placeShipAt([7, 6], [7, 6], 1, 'patrol boat');
-
-// render UI boards
-
-const uiBoardOne = createBoardGrid(
+// create UI boards
+const uiHumanBoard = createBoardGrid(
   '.game-container__grid--one',
   'game-container__row',
   'game-container__cell'
 );
-const uiBoardTwo = createBoardGrid(
+const uiComputerBoard = createBoardGrid(
   '.game-container__grid--two',
   'game-container__row',
   'game-container__cell'
 );
-renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
-renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
 
-// select ships
+// render UI boards
+renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
+renderBoard(uiComputerBoard.children, computerBoard.gameBoard);
+
+// select and place human player ships
 const shipOptionsContainer = document.querySelector(
   '.start-section__ship-options'
 );
+
 const shipOptions = Array.from(shipOptionsContainer.children);
 const allHumanPlayerBoardCells = Array.from(
   document.querySelectorAll('.game-container__grid--one .game-container__cell')
 );
+
 shipOptions.forEach((shipOption) =>
   shipOption.addEventListener('dragstart', dragStart)
 );
@@ -74,13 +71,13 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
   playerCell.addEventListener('drop', (e) => {
     const humanShip = dropShip(e);
     if (humanShip) {
-      gameBoardOne.placeShipAt(
+      humanBoard.placeShipAt(
         humanShip.start,
         humanShip.end,
         humanShip.shipLength,
         humanShip.shipName
       );
-      renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
+      renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
     }
   });
 });
@@ -96,57 +93,64 @@ playBtn.addEventListener('click', startPlaying);
 // restart Btn
 const restartBtn = document.querySelector('.game-control-panel__restart-btn');
 restartBtn.addEventListener('click', () => {
+  // reset game state variables to default values
   isHumanPlaying = true;
   isComputerPlaying = false;
   attackCoordinates = null;
   allReadyClicked = [];
 
+  // reset game UI to start state
   redisplayStartContainer();
   redisplayShipOptions();
   changeDisplayer('Your turn');
-  gameBoardOne.cleanGameBoard();
-  gameBoardTwo.cleanGameBoard();
-  gameBoardOne.cleanShips();
-  gameBoardTwo.cleanShips();
-  cleanUiBoard(uiBoardOne.children);
-  cleanUiBoard(uiBoardTwo.children);
+  humanPlayer.cleanHits();
+  computer.cleanHits();
+  humanBoard.cleanGameBoard();
+  computerBoard.cleanGameBoard();
+  humanBoard.cleanShips();
+  computerBoard.cleanShips();
+  cleanUiBoard(uiHumanBoard.children);
+  cleanUiBoard(uiComputerBoard.children);
 
-  const newShipsCoord = playerTwo.generateRandomShipCoords();
-
-  gameBoardTwo.placeShipAt(
+  // get new Random coords for computer
+  const newShipsCoord = computer.generateRandomShipCoords();
+  // set new places for computer's ships
+  computerBoard.placeShipAt(
     newShipsCoord[0][0],
     newShipsCoord[0][1],
     5,
     'currier'
   );
-  gameBoardTwo.placeShipAt(
+  computerBoard.placeShipAt(
     newShipsCoord[1][0],
     newShipsCoord[1][1],
     4,
     'battleship'
   );
-  gameBoardTwo.placeShipAt(
+  computerBoard.placeShipAt(
     newShipsCoord[2][0],
     newShipsCoord[2][1],
     3,
     'destroyer'
   );
-  gameBoardTwo.placeShipAt(
+  computerBoard.placeShipAt(
     newShipsCoord[3][0],
     newShipsCoord[3][1],
     2,
     'submarine'
   );
-  gameBoardTwo.placeShipAt(
+  computerBoard.placeShipAt(
     newShipsCoord[4][0],
     newShipsCoord[4][1],
     1,
     'patrol boat'
   );
 
-  renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
-  renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
+  // rerender game UI
+  renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
+  renderBoard(uiComputerBoard.children, computerBoard.gameBoard);
 });
+
 // check winner
 const isWinner = (gameBoard) => gameBoard.allAreSunk();
 
@@ -165,7 +169,7 @@ const hasBeenClicked = (clicksList, coordinates) => {
 
 // game loop
 export default function play() {
-  uiBoardTwo.addEventListener('click', (e) => {
+  uiComputerBoard.addEventListener('click', (e) => {
     if (isHumanPlaying) {
       attackCoordinates = getAttackCoordinates(e.target, []);
       if (hasBeenClicked(allReadyClicked, attackCoordinates)) return;
@@ -173,27 +177,26 @@ export default function play() {
 
       if (attackCoordinates) {
         const [row, col] = attackCoordinates;
-        playerOne.humanAttack(row, col, gameBoardTwo);
-        // gameBoardTwo.fillAroundSunkShip();
-        renderBoard(uiBoardTwo.children, gameBoardTwo.gameBoard);
+        humanPlayer.humanAttack(row, col, computerBoard);
         isHumanPlaying = false;
         isComputerPlaying = true;
         changeDisplayer("Computer's turn");
-        if (isWinner(gameBoardTwo)) {
+        renderBoard(uiComputerBoard.children, computerBoard.gameBoard);
+        if (isWinner(computerBoard)) {
           changeDisplayer('Human player Wins!');
           isComputerPlaying = false; // to stop the game
         }
       }
     }
     if (isComputerPlaying) {
+      // setTimeout to prevent instant play form computer
       setTimeout(() => {
-        playerTwo.computerAttack(gameBoardOne);
-        // gameBoardOne.fillAroundSunkShip();
-        renderBoard(uiBoardOne.children, gameBoardOne.gameBoard);
+        computer.computerAttack(humanBoard);
         isComputerPlaying = false;
         isHumanPlaying = true;
         changeDisplayer('Your turn');
-        if (isWinner(gameBoardOne)) {
+        renderBoard(uiHumanBoard.children, humanBoard.gameBoard);
+        if (isWinner(humanBoard)) {
           changeDisplayer('Computer Wins!');
           isHumanPlaying = false; // to stop the game
         }

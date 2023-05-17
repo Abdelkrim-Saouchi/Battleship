@@ -17,6 +17,7 @@ export default function gameBoardFactory() {
 
   let ships = {};
 
+  // method to remove more than one extra x
   const removeX = (string) => {
     if (string.length > 1 && string.includes('x')) {
       return string.slice(0, -1);
@@ -61,23 +62,29 @@ export default function gameBoardFactory() {
     )
       return;
 
+    // create ship
     const ship = shipFactory(length, name);
+    // add ship to ships obj to track added ships and prevent duplication
     if (!ships[ship.name]) ships[ship.name] = ship;
 
+    // if horizontal with different cols
     if (startRow === endRow && startCol !== endCol) {
       for (let i = startCol; i < endCol + 1; i += 1) {
         if (gameBoard[startRow][i] === '') {
           gameBoard[startRow][i] = ship.name;
         }
       }
+      // if vertical with different rows
     } else if (startCol === endCol && startRow !== endRow) {
       for (let i = startRow; i < endRow + 1; i += 1) {
         if (gameBoard[i][startCol] === '') {
           gameBoard[i][startCol] = ship.name;
         }
       }
+      // if have same end row and end col
     } else if (startRow !== startCol && gameBoard[startRow][startCol] === '') {
       gameBoard[startRow][startCol] = ship.name;
+      // if have same start row and start col
     } else if (startRow === startCol && gameBoard[startRow][startRow] === '') {
       gameBoard[startRow][startRow] = ship.name;
     }
@@ -156,6 +163,13 @@ export default function gameBoardFactory() {
     ships = {};
   };
 
+  const isPlaceAlreadyHit = (row, col) => {
+    if (gameBoard[row][col].includes('x')) {
+      return true;
+    }
+    return false;
+  };
+
   return {
     gameBoard,
     placeShipAt,
@@ -164,5 +178,6 @@ export default function gameBoardFactory() {
     fillAroundSunkShip,
     cleanGameBoard,
     cleanShips,
+    isPlaceAlreadyHit,
   };
 }

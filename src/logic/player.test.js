@@ -1,15 +1,21 @@
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
 
+let playerOne;
+let computer;
+
+beforeEach(() => {
+  playerOne = Player('player one');
+  computer = Player('computer');
+});
+
 test('player name is set correctly', () => {
-  const playerOne = Player('player one');
   expect(playerOne.name).toBe('player one');
-  const computer = Player('computer');
+
   expect(computer.name).toBe('computer');
 });
 
 test('player humanAttack function works correctly', () => {
-  const playerOne = Player('player one');
   const gameBoard = gameBoardFactory();
   gameBoard.placeShipAt([0, 0], [0, 0], 1, 'marine');
   playerOne.humanAttack(0, 0, gameBoard);
@@ -17,7 +23,6 @@ test('player humanAttack function works correctly', () => {
 });
 
 test('player humanAttack function handles unexpected inputs', () => {
-  const playerOne = Player('player one');
   const gameBoard = gameBoardFactory();
   expect(() => playerOne.humanAttack('f', 0, gameBoard)).toThrow(
     'invalid row or col'
@@ -29,7 +34,6 @@ test('player humanAttack function handles unexpected inputs', () => {
 });
 
 test('player computerAttack function works correctly', () => {
-  const computer = Player('computer');
   const gameBoard = gameBoardFactory();
   computer.computerAttack(gameBoard);
   let changed = false;
@@ -46,4 +50,11 @@ test('player computerAttack function handles unexpected inputs', () => {
   expect(() => Player('computer').computerAttack()).toThrow(
     'no gameBoard passed'
   );
+});
+
+test('generateRandomShipCoords function works correctly', () => {
+  expect(typeof computer.generateRandomShipCoords()[0][0][0]).toBe('number');
+  expect(typeof computer.generateRandomShipCoords()[0][0][1]).toBe('number');
+  expect(typeof computer.generateRandomShipCoords()[0][1][0]).toBe('number');
+  expect(typeof computer.generateRandomShipCoords()[0][1][1]).toBe('number');
 });

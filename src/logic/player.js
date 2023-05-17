@@ -1,5 +1,5 @@
 export default function Player(name) {
-  const hitCoordinates = [];
+  let hitCoordinates = [];
 
   const hasAlreadyHit = (row, col) => {
     for (let i = 0; i < hitCoordinates.length; i += 1) {
@@ -30,7 +30,7 @@ export default function Player(name) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
 
-    while (hasAlreadyHit(row, col)) {
+    while (hasAlreadyHit(row, col) && gameBoard.isPlaceAlreadyHit(row, col)) {
       row = Math.floor(Math.random() * 10);
       col = Math.floor(Math.random() * 10);
     }
@@ -106,10 +106,15 @@ export default function Player(name) {
     return coords;
   };
 
+  const cleanHits = () => {
+    hitCoordinates = [];
+  };
+
   return {
     name,
     humanAttack,
     computerAttack,
     generateRandomShipCoords,
+    cleanHits,
   };
 }

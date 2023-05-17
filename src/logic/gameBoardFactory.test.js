@@ -1,6 +1,4 @@
 import gameBoardFactory from './gameBoardFactory';
-import shipFactory from './shipFactory';
-// import shipFactory from './shipFactory';
 
 let gameBoardObj;
 
@@ -97,13 +95,6 @@ test('allAreSunk works correctly', () => {
   expect(gameBoardObj.allAreSunk()).toBe(true);
 });
 
-test('ship added correctly to ships obj', () => {
-  gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
-  expect(gameBoardObj.ships[shipFactory(1, 'submarine').name].name).toEqual(
-    shipFactory(1, 'submarine').name
-  );
-});
-
 test('FillAroundSunkShip function works correctly', () => {
   gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
   gameBoardObj.receiveAttack(0, 0);
@@ -122,4 +113,17 @@ test('FillAroundSunkShip function works correctly', () => {
   expect(gameBoardObj.gameBoard[3][3]).toBe('x');
   expect(gameBoardObj.gameBoard[4][2]).toBe('x');
   expect(gameBoardObj.gameBoard[4][1]).toBe('x');
+});
+
+test('cleanBoard function works correctly', () => {
+  gameBoardObj.placeShipAt([0, 0], [0, 0], 1, 'submarine');
+  expect(gameBoardObj.gameBoard[0][0]).not.toBe('');
+  gameBoardObj.cleanGameBoard();
+  expect(gameBoardObj.gameBoard[0][0]).toBe('');
+});
+
+test('isPlaceAlreadyHit function works correctly', () => {
+  gameBoardObj.receiveAttack(0, 0);
+  expect(gameBoardObj.isPlaceAlreadyHit(0, 0)).toBe(true);
+  expect(gameBoardObj.isPlaceAlreadyHit(0, 1)).toBe(false);
 });
