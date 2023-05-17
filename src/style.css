@@ -1,9 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  --Navy-Blue: #001f3f;
+  --Light-Gray: #f8f8f8;
+  --Fire-Brick-Red: #b22222;
+  --White: #ffffff;
+  --Forest-Green: #228b22;
+  --Light-Coral: #f08080;
 }
 
 body {
@@ -13,6 +24,9 @@ body {
   flex-direction: column;
   align-items: center;
   position: relative;
+  background-color: var(--Light-Gray);
+  color: var(--Navy-Blue);
+  font-family: 'Oswald', 'sans-serif';
 }
 
 main {
@@ -55,7 +69,7 @@ h1 {
   height: 92%;
   font-size: 28px;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.795);
+  color: inherit;
 }
 
 .game-container__start-display {
@@ -67,7 +81,8 @@ h1 {
   height: 400px;
   display: flex;
   flex-direction: column;
-  border: 2px solid blue;
+  background-color: var(--Navy-Blue);
+  border: 2px solid var(--Light-Gray);
   cursor: pointer;
 }
 
@@ -80,31 +95,26 @@ h1 {
 .game-container__cell,
 .start-section__cell {
   flex: 1;
-  border: 1px solid blue;
+  border: 1px solid var(--Light-Gray);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .game-container__cell.green {
-  background-color: green;
+  background-color: var(--Forest-Green);
 }
 
-.game-container__cell.red {
-  color: red;
-  font-size: 24px;
-  font-weight: 700;
+.game-container__cell.missed {
+  background-color: var(--Light-Coral);
 }
 
 .game-container__cell.hit {
-  background-color: green;
-  color: red;
-  font-size: 32px;
-  font-weight: 700;
+  background-color: var(--Fire-Brick-Red);
 }
 
 .game-container__player {
-  color: blue;
+  color: var(--Navy-Blue);
   font-size: larger;
   font-weight: 600;
 }
@@ -125,14 +135,17 @@ h1 {
 .game-container__play-btn {
   border: 0;
   padding: 10px 16px;
-  background-color: blue;
-  color: white;
+  background-color: var(--Navy-Blue);
+  color: var(--White);
   border-radius: 12px;
   font-size: 28px;
+  font-family: inherit;
   cursor: pointer;
 }
 
-.game-control-panel__restart-btn:is(:focus, :hover) {
+.game-control-panel__restart-btn:is(:focus, :hover),
+.start-section__rotate-btn:is(:focus, :hover),
+.game-container__play-btn:is(:focus, :hover) {
   opacity: 0.9;
 }
 
@@ -147,7 +160,7 @@ h1 {
 }
 
 .start-section__ship-options {
-  border: 5px solid blue;
+  border: 5px solid var(--Navy-Blue);
   padding: 8px;
   display: flex;
   justify-content: space-between;
@@ -157,7 +170,7 @@ h1 {
   min-height: 40px;
 }
 .start-section__ship-options > div {
-  background-color: green;
+  background-color: var(--Forest-Green);
   height: 40px;
   cursor: grab;
 }
@@ -184,20 +197,21 @@ h1 {
 
 .start-section__rotate-btn {
   border: 0;
-  background-color: blue;
-  color: white;
+  background-color: var(--Navy-Blue);
+  color: var(--White);
   font-size: 20px;
+  font-family: inherit;
   padding: 12px 24px;
   border-radius: 12px;
   cursor: pointer;
 }
 
-.start-section__start-grid {
-  border: 2px solid white;
-}
+/* .start-section__start-grid {
+  border: 2px solid var(--White);
+} */
 
 .start-section__cell {
-  border: 1px solid white;
+  border: 1px solid var(--White);
 }
 
 footer {

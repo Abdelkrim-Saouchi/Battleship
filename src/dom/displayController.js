@@ -1,14 +1,12 @@
 /* eslint-disable no-param-reassign */
 function createBoardRow(rowClass) {
   const row = document.createElement('div');
-  // row.classList.add('game-container__row');
   row.classList.add(rowClass);
   return row;
 }
 
 function createBoardCell(colClass) {
   const cell = document.createElement('div');
-  // cell.classList.add('game-container__cell');
   cell.classList.add(colClass);
   return cell;
 }
@@ -37,10 +35,8 @@ export const renderBoard = (boardGrid, boardData) => {
       if (boardData[i][j] !== '' && !boardData[i][j].includes('x')) {
         boardGrid[i].children[j].classList.add('green');
       } else if (boardData[i][j] !== '' && boardData[i][j] === 'x') {
-        boardGrid[i].children[j].innerHTML = 'O';
-        boardGrid[i].children[j].classList.add('red');
+        boardGrid[i].children[j].classList.add('missed');
       } else if (boardData[i][j] !== '' && boardData[i][j].includes('x')) {
-        boardGrid[i].children[j].innerHTML = 'X';
         boardGrid[i].children[j].classList.add('hit');
       }
     }
@@ -51,18 +47,14 @@ export const cleanUiBoard = (boardGrid) => {
   for (let i = 0; i < boardGrid.length; i += 1) {
     for (let j = 0; j < boardGrid[i].children.length; j += 1) {
       boardGrid[i].children[j].classList.remove('green');
-      boardGrid[i].children[j].classList.remove('red');
+      boardGrid[i].children[j].classList.remove('missed');
       boardGrid[i].children[j].classList.remove('hit');
-      boardGrid[i].children[j].innerHTML = '';
     }
   }
 };
 
 export const getAttackCoordinates = (target, coordinates) => {
   const coordinatesCopy = coordinates.slice(0);
-  // if (coordinatesCopy.length > 0) {
-  //   coordinatesCopy = [];
-  // }
   coordinatesCopy.push(Number(target.parentElement.dataset.rowIndex));
   coordinatesCopy.push(Number(target.dataset.colIndex));
   return coordinatesCopy;
@@ -218,6 +210,6 @@ export function redisplayStartContainer() {
 
 export function redisplayShipOptions() {
   shipsOptions.forEach((shipOption) => shipOption.classList.remove('hidden'));
-  // rest tracking array for new ship positioning
+  // reset tracking array for new ship positioning
   hasAlreadyChosen = [];
 }
