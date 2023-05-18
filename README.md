@@ -1,5 +1,5 @@
 # Battleship
-this project is from The Odin Project curculium
+this project is from The Odin Project curriculum
 live demo [here](https://karim-saou.github.io/Battleship/)
 ## What did I learn?
 1. Unit testing by Jest framwork.
