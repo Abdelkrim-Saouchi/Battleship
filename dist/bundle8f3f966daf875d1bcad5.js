@@ -487,7 +487,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "redisplayShipOptions": () => (/* binding */ redisplayShipOptions),
 /* harmony export */   "redisplayStartContainer": () => (/* binding */ redisplayStartContainer),
 /* harmony export */   "renderBoard": () => (/* binding */ renderBoard),
-/* harmony export */   "startPlaying": () => (/* binding */ startPlaying)
+/* harmony export */   "startPlaying": () => (/* binding */ startPlaying),
+/* harmony export */   "touchEnd": () => (/* binding */ touchEnd),
+/* harmony export */   "touchMove": () => (/* binding */ touchMove),
+/* harmony export */   "touchStart": () => (/* binding */ touchStart)
 /* harmony export */ });
 /* eslint-disable no-param-reassign */
 function createBoardRow(rowClass) {
@@ -709,6 +712,79 @@ function redisplayShipOptions() {
   hasAlreadyChosen = [];
 }
 
+// for mobile browsers
+
+let currentX;
+let currentY;
+
+function touchStart() {
+  // console.log('touch start');
+  // const touch = e.touches[0];
+}
+
+function touchMove(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  currentX = touch.clientX;
+  currentY = touch.clientY;
+}
+
+function touchEnd(e) {
+  let startRow;
+  let startCol;
+  let endRow;
+  let endCol;
+  const gridCell = document.querySelector(
+    '.game-container__grid--one .game-container__cell'
+  );
+  // Get the position of the grid container
+  const gridContainer = document.querySelector('.game-container__grid--one');
+  const gridXOffset = gridContainer.getBoundingClientRect().left;
+  const gridYOffset = gridContainer.getBoundingClientRect().top;
+
+  // Calculate the adjusted touch position relative to the grid container
+  const cellWidth = gridCell.offsetWidth;
+  const cellHeight = gridCell.offsetHeight;
+  const adjustedTouchX = currentX + cellWidth / 2 - gridXOffset;
+  const adjustedTouchY = currentY + cellHeight / 2 - gridYOffset;
+
+  // eslint-disable-next-line prefer-const
+  startRow = Math.round(adjustedTouchY / cellHeight) - 1;
+  // eslint-disable-next-line prefer-const
+  startCol = Math.round(adjustedTouchX / cellWidth) - 1;
+
+  const shipName = shipNames[e.target.id];
+  const shipLength = shipsLength[e.target.id];
+
+  if (direction === 'horizontal') {
+    endRow = startRow;
+
+    if (startCol + shipLength - 1 >= 10) return;
+    endCol = startCol + shipLength - 1;
+  } else {
+    if (startRow + shipLength - 1 >= 10) return;
+    endRow = startRow + shipLength - 1;
+    endCol = startCol;
+  }
+
+  if (isSameStart(startRow, startCol)) return;
+  if (!isValidPosition(startRow, startCol, endRow, endCol)) return;
+  hasAlreadyChosen.push([
+    [startRow, startCol],
+    [endRow, endCol],
+  ]);
+
+  // hide dragged ship form ships options
+  e.target.classList.add('hidden');
+  // eslint-disable-next-line consistent-return
+  return {
+    shipName,
+    shipLength,
+    start: [startRow, startCol],
+    end: [endRow, endCol],
+  };
+}
+
 
 /***/ }),
 
@@ -802,6 +878,28 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
   playerCell.addEventListener('dragover', _dom_displayController__WEBPACK_IMPORTED_MODULE_0__.dragOver);
   playerCell.addEventListener('drop', (e) => {
     const humanShip = (0,_dom_displayController__WEBPACK_IMPORTED_MODULE_0__.dropShip)(e);
+    if (humanShip) {
+      humanBoard.placeShipAt(
+        humanShip.start,
+        humanShip.end,
+        humanShip.shipLength,
+        humanShip.shipName
+      );
+      (0,_dom_displayController__WEBPACK_IMPORTED_MODULE_0__.renderBoard)(
+        uiHumanBoard.children,
+        humanBoard.gameBoard,
+        humanPlayer.name
+      );
+    }
+  });
+});
+
+// for mobile browsers
+shipOptions.forEach((shipOption) => {
+  shipOption.addEventListener('touchstart', _dom_displayController__WEBPACK_IMPORTED_MODULE_0__.touchStart);
+  shipOption.addEventListener('touchmove', _dom_displayController__WEBPACK_IMPORTED_MODULE_0__.touchMove);
+  shipOption.addEventListener('touchend', (e) => {
+    const humanShip = (0,_dom_displayController__WEBPACK_IMPORTED_MODULE_0__.touchEnd)(e);
     if (humanShip) {
       humanBoard.placeShipAt(
         humanShip.start,
@@ -1329,4 +1427,4 @@ function shipFactory(length, name) {
 /******/ var __webpack_exports__ = (__webpack_exec__("./src/index.js"));
 /******/ }
 ]);
-//# sourceMappingURL=bundle840e1a12b9af176fca44.js.map
+//# sourceMappingURL=bundle8f3f966daf875d1bcad5.js.map

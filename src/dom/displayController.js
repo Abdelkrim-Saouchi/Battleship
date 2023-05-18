@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
-function createBoardRow(rowClass) {
+const createBoardRow = (rowClass) => {
   const row = document.createElement('div');
   row.classList.add(rowClass);
   return row;
-}
+};
 
-function createBoardCell(colClass) {
+const createBoardCell = (colClass) => {
   const cell = document.createElement('div');
   cell.classList.add(colClass);
   return cell;
-}
+};
 
 export const createBoardGrid = (parentSelector, rowClass, colClass) => {
   const parent = document.querySelector(parentSelector);
@@ -189,66 +189,61 @@ export function changeDirection() {
 const shipsOptions = Array.from(
   document.querySelectorAll('.start-section__ship-options > div')
 );
-function isGameReady() {
+
+const isGameReady = () => {
   for (let i = 0; i < shipsOptions.length; i += 1) {
     if (!shipsOptions[i].classList.contains('hidden')) {
       return false;
     }
   }
   return true;
-}
+};
 
 const startPlayContainer = document.querySelector(
   '.game-container__start-play-container'
 );
 
-export function startPlaying() {
+export const startPlaying = () => {
   if (isGameReady()) {
     startPlayContainer.classList.add('hidden');
   }
-}
+};
 
-export function redisplayStartContainer() {
+export const redisplayStartContainer = () => {
   startPlayContainer.classList.remove('hidden');
-}
+};
 
-export function redisplayShipOptions() {
+export const redisplayShipOptions = () => {
   shipsOptions.forEach((shipOption) => shipOption.classList.remove('hidden'));
   // reset tracking array for new ship positioning
   hasAlreadyChosen = [];
-}
+};
 
 // for mobile browsers
-
 let currentX;
 let currentY;
 
-export function touchStart() {
-  // console.log('touch start');
-  // const touch = e.touches[0];
-}
-
-export function touchMove(e) {
+export const touchMove = (e) => {
   e.preventDefault();
   const touch = e.touches[0];
   currentX = touch.clientX;
   currentY = touch.clientY;
-}
+};
 
-export function touchEnd(e) {
+export const touchEnd = (e) => {
   let startRow;
   let startCol;
   let endRow;
   let endCol;
-  const gridCell = document.querySelector(
-    '.game-container__grid--one .game-container__cell'
-  );
   // Get the position of the grid container
   const gridContainer = document.querySelector('.game-container__grid--one');
   const gridXOffset = gridContainer.getBoundingClientRect().left;
   const gridYOffset = gridContainer.getBoundingClientRect().top;
 
   // Calculate the adjusted touch position relative to the grid container
+  const gridCell = document.querySelector(
+    '.game-container__grid--one .game-container__cell'
+  );
   const cellWidth = gridCell.offsetWidth;
   const cellHeight = gridCell.offsetHeight;
   const adjustedTouchX = currentX + cellWidth / 2 - gridXOffset;
@@ -289,4 +284,4 @@ export function touchEnd(e) {
     start: [startRow, startCol],
     end: [endRow, endCol],
   };
-}
+};

@@ -11,7 +11,6 @@ import {
   redisplayStartContainer,
   redisplayShipOptions,
   cleanUiBoard,
-  touchStart,
   touchEnd,
   touchMove,
 } from '../dom/displayController';
@@ -91,7 +90,6 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
 
 // for mobile browsers
 shipOptions.forEach((shipOption) => {
-  shipOption.addEventListener('touchstart', touchStart);
   shipOption.addEventListener('touchmove', touchMove);
   shipOption.addEventListener('touchend', (e) => {
     const humanShip = touchEnd(e);
