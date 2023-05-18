@@ -241,34 +241,40 @@ footer a:is(:focus, :hover) {
 }
 
 @media (width < 500px) {
+  main {
+    padding: 8px;
+  }
+  .game-container {
+    flex-direction: column;
+  }
   .game-container__board {
-    width: 350px;
+    width: 300px;
   }
   .game-container__grid {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
   }
   .start-section__ship-options > div {
-    height: 35px;
+    height: 30px;
   }
 
   .start-section__currier {
-    width: 175px;
+    width: 150px;
   }
 
   .start-section__battleship {
-    width: 140px;
+    width: 120px;
   }
 
   .start-section__destroyer {
-    width: 105px;
+    width: 90px;
   }
 
   .start-section__submarine {
-    width: 70px;
+    width: 60px;
   }
 
   .start-section__patrol-boat {
-    width: 35px;
+    width: 30px;
   }
 }
