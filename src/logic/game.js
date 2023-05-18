@@ -11,6 +11,9 @@ import {
   redisplayStartContainer,
   redisplayShipOptions,
   cleanUiBoard,
+  touchStart,
+  touchEnd,
+  touchMove,
 } from '../dom/displayController';
 import gameBoardFactory from './gameBoardFactory';
 import Player from './player';
@@ -70,6 +73,28 @@ allHumanPlayerBoardCells.forEach((playerCell) => {
   playerCell.addEventListener('dragover', dragOver);
   playerCell.addEventListener('drop', (e) => {
     const humanShip = dropShip(e);
+    if (humanShip) {
+      humanBoard.placeShipAt(
+        humanShip.start,
+        humanShip.end,
+        humanShip.shipLength,
+        humanShip.shipName
+      );
+      renderBoard(
+        uiHumanBoard.children,
+        humanBoard.gameBoard,
+        humanPlayer.name
+      );
+    }
+  });
+});
+
+// for mobile browsers
+shipOptions.forEach((shipOption) => {
+  shipOption.addEventListener('touchstart', touchStart);
+  shipOption.addEventListener('touchmove', touchMove);
+  shipOption.addEventListener('touchend', (e) => {
+    const humanShip = touchEnd(e);
     if (humanShip) {
       humanBoard.placeShipAt(
         humanShip.start,

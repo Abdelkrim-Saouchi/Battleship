@@ -217,3 +217,76 @@ export function redisplayShipOptions() {
   // reset tracking array for new ship positioning
   hasAlreadyChosen = [];
 }
+
+// for mobile browsers
+
+let currentX;
+let currentY;
+
+export function touchStart() {
+  // console.log('touch start');
+  // const touch = e.touches[0];
+}
+
+export function touchMove(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  currentX = touch.clientX;
+  currentY = touch.clientY;
+}
+
+export function touchEnd(e) {
+  let startRow;
+  let startCol;
+  let endRow;
+  let endCol;
+  const gridCell = document.querySelector(
+    '.game-container__grid--one .game-container__cell'
+  );
+  // Get the position of the grid container
+  const gridContainer = document.querySelector('.game-container__grid--one');
+  const gridXOffset = gridContainer.getBoundingClientRect().left;
+  const gridYOffset = gridContainer.getBoundingClientRect().top;
+
+  // Calculate the adjusted touch position relative to the grid container
+  const cellWidth = gridCell.offsetWidth;
+  const cellHeight = gridCell.offsetHeight;
+  const adjustedTouchX = currentX + cellWidth / 2 - gridXOffset;
+  const adjustedTouchY = currentY + cellHeight / 2 - gridYOffset;
+
+  // eslint-disable-next-line prefer-const
+  startRow = Math.round(adjustedTouchY / cellHeight) - 1;
+  // eslint-disable-next-line prefer-const
+  startCol = Math.round(adjustedTouchX / cellWidth) - 1;
+
+  const shipName = shipNames[e.target.id];
+  const shipLength = shipsLength[e.target.id];
+
+  if (direction === 'horizontal') {
+    endRow = startRow;
+
+    if (startCol + shipLength - 1 >= 10) return;
+    endCol = startCol + shipLength - 1;
+  } else {
+    if (startRow + shipLength - 1 >= 10) return;
+    endRow = startRow + shipLength - 1;
+    endCol = startCol;
+  }
+
+  if (isSameStart(startRow, startCol)) return;
+  if (!isValidPosition(startRow, startCol, endRow, endCol)) return;
+  hasAlreadyChosen.push([
+    [startRow, startCol],
+    [endRow, endCol],
+  ]);
+
+  // hide dragged ship form ships options
+  e.target.classList.add('hidden');
+  // eslint-disable-next-line consistent-return
+  return {
+    shipName,
+    shipLength,
+    start: [startRow, startCol],
+    end: [endRow, endCol],
+  };
+}
