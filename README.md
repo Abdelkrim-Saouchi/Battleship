@@ -1,6 +1,6 @@
 # Battleship
 this project is from The Odin Project curriculum
-live demo [here](https://karim-saou.github.io/Battleship/)
+live demo [here](https://abdelkrim-saouchi.github.io/Battleship/)
 ## What did I learn?
 1. Unit testing by Jest framwork.
 2. Modular coding using ES6 modules.
